@@ -6,12 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity //essa anotação indica que a classe é uma entidade, será utilizada para gerar uma tabela no BD.
 @Table (name = "tb_postagens") //indica o nome da tabela no BD. Caso ela não seja declarada, o banco criará a tabela com o mesmo nome da classe.
@@ -34,7 +37,11 @@ public class PostagemModel {
 	
 	@UpdateTimestamp  //pega localdatahora do seu computador automaticamente
 	private LocalDateTime data;
-
+	
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private TemaModel tema;
+	
 	public Long getId() {
 		return id;
 	}
@@ -66,5 +73,14 @@ public class PostagemModel {
 	public void setData(LocalDateTime data) {
 		this.data = data;
 	}
+	
+	public TemaModel getTema() {
+		return tema;
+	}
+
+	public void setTema(TemaModel tema) {
+		this.tema = tema;
+	}
+
 	
 }
